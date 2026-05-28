@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarTrust | Design a Greener Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; color: #1e293b; scroll-behavior: smooth; }
+        .hero-gradient { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+        .page { display: none; animation: fadeIn 0.5s ease-out forwards; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .balloon { position: fixed; bottom: -100px; width: 40px; height: 55px; border-radius: 50%; z-index: 100; animation: flyUp 4s linear forwards; }
+        @keyframes flyUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; } }
+    </style>
+</head>
+<body class="bg-white">
+
+    <div id="onboarding-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative text-center">
+            <button onclick="closeOnboarding()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold">Skip</button>
+            <div id="instruction-content">
+                <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Step 1 of 2</span>
+                <h2 class="text-2xl font-extrabold mt-2 mb-4">Calculate Your ROI</h2>
+                <p class="text-gray-600 mb-6">See exactly how much you save by switching to solar before you commit.</p>
+                <button onclick="nextStep()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition">Next Step →</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="flex items-center justify-between px-6 md:px-10 py-6 sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="text-2xl font-extrabold tracking-tighter text-blue-600 cursor-pointer" onclick="showPage('home')">SolarTrust</div>
+        <div class="hidden md:flex space-x-8 font-semibold text-gray-500">
+            <a href="javascript:void(0)" onclick="showPage('home')" id="link-home" class="hover:text-blue-600 transition">Calculator</a>
+            <a href="javascript:void(0)" onclick="showPage('gallery')" id="link-gallery" class="hover:text-blue-600 transition">Gallery</a>
+            <a href="javascript:void(0)" onclick="showPage('shop')" id="link-shop" class="hover:text-blue-600 transition">Shop</a>
+            <a href="javascript:void(0)" onclick="showPage('about')" id="link-about" class="hover:text-blue-600 transition">About</a>
+        </div>
+        <a href="javascript:void(0)" onclick="showPage('payment')" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition shadow-md shadow-blue-100">Pay Bill</a>
+    </nav>
+
+    <main id="home" class="page active">
+        <section class="hero-gradient pt-16 pb-24 px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <span class="uppercase tracking-widest text-sm font-bold text-blue-500">Smart Energy Management</span>
+                <h1 class="text-5xl md:text-6xl font-extrabold mt-4 mb-6 leading-tight">Lower Your Bill, <br><span class="text-blue-600">Power Your Life.</span></h1>
+                <div class="bg-white p-8 rounded-3xl shadow-xl max-w-lg mx-auto border border-gray-100">
+                    <label class="block text-left font-bold text-gray-700 mb-2">Monthly Electricity Bill ($)</label>
+                    <input type="number" id="bill" placeholder="e.g. 200" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl mb-6 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <button onclick="calculateROI()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition">Calculate ROI</button>
+                    
+                    <div id="result" class="hidden mt-8 pt-8 border-t border-gray-100 text-left">
+                        <div class="flex justify-between mb-2"><span class="text-gray-500">Utility Cost:</span><span class="font-bold text-red-500" id="curr">$0</span></div>
+                        <div class="flex justify-between mb-4"><span class="text-gray-500">Solar Plan:</span><span class="font-bold text-green-600" id="sol">$0</span></div>
+                        <button onclick="showPage('payment')" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">Proceed to Payment</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="gallery" class="page">
+        <section class="py-20 px-6 max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold mb-4">Installation Gallery</h2>
+                <p class="text-gray-500">See how we transform homes across the community.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <img src="https://images.unsplash.com/photo-1509391366360-fe5bb58583bb?auto=format&fit=crop&w=600&q=80" class="rounded-2xl shadow-md hover:shadow-xl transition h-64 w-full object-cover">
+                <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=600&q=80" class="rounded-2xl shadow-md hover:shadow-xl transition h-64 w-full object-cover">
+                <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=600&q=80" class="rounded-2xl shadow-md hover:shadow-xl transition h-64 w-full object-cover">
+                <img src="https://images.unsplash.com/photo-1466611653911-95282fc3656b?auto=format&fit=crop&w=600&q=80" class="rounded-2xl shadow-md hover:shadow-xl transition h-64 w-full object-cover">
+            </div>
+        </section>
+    </main>
+
+    <main id="shop" class="page">
+        <section class="py-20 px-6 max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold mb-12">Hardware Solutions</h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-xl transition">
+                    <h3 class="text-2xl font-bold mb-2">Starter Package</h3>
+                    <div class="text-blue-600 text-3xl font-extrabold mb-6">$2,500</div>
+                    <p class="text-gray-500 mb-8">Perfect for small households and low consumption.</p>
+                    <button class="w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition">Choose Plan</button>
+                </div>
+                <div class="p-8 bg-white border-2 border-blue-600 rounded-3xl shadow-xl transform scale-105">
+                    <div class="bg-blue-600 text-white text-xs py-1 px-3 rounded-full inline-block mb-4 uppercase font-bold tracking-widest">Most Popular</div>
+                    <h3 class="text-2xl font-bold mb-2">Efficiency Pro</h3>
+                    <div class="text-blue-600 text-3xl font-extrabold mb-6">$8,000</div>
+                    <p class="text-gray-500 mb-8">Balanced power for standard families.</p>
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">Choose Plan</button>
+                </div>
+                <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-xl transition">
+                    <h3 class="text-2xl font-bold mb-2">Premium Max</h3>
+                    <div class="text-blue-600 text-3xl font-extrabold mb-6">$15,000</div>
+                    <p class="text-gray-500 mb-8">Ultimate energy independence and storage.</p>
+                    <button class="w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition">Choose Plan</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="payment" class="page">
+        <section class="py-20 px-6">
+            <div class="max-w-md mx-auto" id="payment-form">
+                <div class="bg-white p-8 rounded-3xl shadow-2xl border border-gray-100">
+                    <h2 class="text-2xl font-extrabold mb-6 text-center">Complete Payment</h2>
+                    <input type="text" placeholder="Cardholder Name" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" placeholder="Card Number" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <input type="text" placeholder="MM/YY" class="p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                        <input type="text" placeholder="CVC" class="p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                    <button onclick="handlePayment()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-green-200 hover:bg-green-700 transition">Pay Now</button>
+                </div>
+            </div>
+
+            <div id="thank-you" class="hidden max-w-2xl mx-auto text-center py-20">
+                <div class="text-6xl mb-6">🎉</div>
+                <h2 class="text-4xl font-extrabold mb-4">Payment Successful!</h2>
+                <div class="text-2xl text-blue-600 font-bold my-8">
+                    $$ \text{Trust} + \text{Solar} = \text{Clean Future} $$
+                </div>
+                <p class="text-gray-600 text-lg mb-10">Thank you for trusting us. See you next time!</p>
+                <button onclick="location.reload()" class="bg-blue-600 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700">Back to Dashboard</button>
+            </div>
+        </section>
+    </main>
+
+    <main id="about" class="page">
+        <section class="py-24 px-6 max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold mb-6">Our Mission</h2>
+            <p class="text-xl text-gray-600 leading-relaxed">SolarTrust is dedicated to providing affordable, reliable green energy for local communities. We believe sustainability should be accessible to everyone, regardless of coding or technical knowledge.</p>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-16 px-6 text-center">
+        <div class="text-2xl font-extrabold mb-4">SolarTrust</div>
+        <p class="text-gray-400 mb-8">Join the energy revolution.</p>
+        <div class="pt-8 border-t border-gray-800 text-gray-500 text-sm">
+            © 2026 SolarTrust Community Project. Built for Safety & Energy.
+        </div>
+    </footer>
+
+    <div id="balloon-zone"></div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('text-blue-600'));
+            const link = document.getElementById('link-' + pageId);
+            if(link) link.classList.add('text-blue-600');
+            window.scrollTo(0,0);
+        }
+
+        let step = 0;
+        function nextStep() {
+            step++;
+            const content = document.getElementById('instruction-content');
+            if(step === 1) {
+                content.innerHTML = `
+                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Step 2 of 2</span>
+                    <h2 class="text-2xl font-extrabold mt-2 mb-4">Explore the Gallery</h2>
+                    <p class="text-gray-600 mb-6">View real solar transformations in our community project gallery.</p>
+                    <button onclick="closeOnboarding()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Get Started</button>
+                `;
+            }
+        }
+
+        function closeOnboarding() { document.getElementById('onboarding-overlay').style.display = 'none'; }
+
+        function calculateROI() {
+            const b = parseFloat(document.getElementById('bill').value);
+            if(b > 0) {
+                document.getElementById('curr').innerText = "$" + b;
+                document.getElementById('sol').innerText = "$" + (b * 0.62).toFixed(2);
+                document.getElementById('result').classList.remove('hidden');
+            }
+        }
+
+        function handlePayment() {
+            document.getElementById('payment-form').classList.add('hidden');
+            document.getElementById('thank-you').classList.remove('hidden');
+            createBalloons();
+        }
+
+        function createBalloons() {
+            const colors = ['#3b82f6', '#22c55e', '#eab308', '#ef4444', '#a855f7'];
+            const container = document.getElementById('balloon-zone');
+            for(let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const b = document.createElement('div');
+                    b.className = 'balloon';
+                    b.style.left = Math.random() * 95 + "vw";
+                    b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    container.appendChild(b);
+                    setTimeout(() => b.remove(), 4000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
